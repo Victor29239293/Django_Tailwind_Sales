@@ -1,0 +1,231 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block content %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+<div class="bg-slate-100 dark:bg-principal p-4 ">
+    <div class="absolute inset-0 bg-center blur-[106px]"></div>
+    <div class="relative">
+        <div class="flex justify-between items-center mb-4">
+            <a href="{% url 'security:auth_login' %}" class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full mr-2">
+                Atrás
+            </a>
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse text-center justify-center" data-aos="fade-up">
+                <img src="{% static 'img/iguana_corporation.png' %}" class="w-8 h-8" alt="Flowbite Logo" />
+                <span class="self-center whitespace-nowrap dark:text-blue-300 font-extrabold">Iguanas Corporation</span>
+            </a>
+        </div>
+
+        <section class="p-4 my-4 mx-auto rounded-3xl bg-white dark:bg-secundario" data-aos="fade-up" data-aos-delay="200">
+            <p class="text-center my-6 font-Tiny5 text-2xl dark:text-gray-400 uppercase">¡Únete a nuestra comunidad!</p>
+            <div class="text-center my-4" data-aos="fade-right" data-aos-delay="200">
+                <img src="{% static 'img/register/signup.jpg' %}" class="block w-20 md:w-64 lg:w-64 mx-auto rounded-full" alt="Signin">
+            </div>
+            <h1 class="text-4xl text-center mt-6 font-Pacifico dark:text-blue-300 my-2 border-b-2 border-gray-200 py-4">
+                {{ title2 }}
+            </h1>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-6 py-4">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-4 lg:mx-20" data-aos="fade">
+                    <!-- Columna de la izquierda -->
+                    <div class="w-full bg-white dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8" data-aos="fade-right" data-aos-delay="200">
+                        <!-- Imagen del usuario -->
+                        <div class="w-[60%] text-center">
+                            <h2 class="dark:text-blue-300 text-2xl text-center mt-6 font-Pacifico">Imagen de Perfil</h2>
+                            <br>
+                            <div id="imagenPreview">
+                                {% if form.image.value %}
+                                <img id="imagenSeleccionada" src="{{ form.image.value.url }}" class="mx-auto d-block rounded-lg" alt="Imagen de Perfil">
+                                {% else %}
+                                <img id="imagenSeleccionada" src="{% static 'img/default_profile.jpeg' %}" class="mx-auto d-block rounded-lg" alt="Imagen de Perfil por defecto">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-center w-auto m-4">
+                            <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
+                            {{ form.image }}
+                        </div>
+                    </div>
+
+                    <!-- Columna de la derecha -->
+                    <div class="p-4 rounded-3xl dark:bg-secundario bg-white flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
+                        <div class="grid gap-6 w-full">
+                            <!-- Datos de Usuario -->
+                            <div class="grid grid-cols-3 gap-6 w-full border-b-2 border-gray-200 py-4"> <!-- Fila -->
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.username.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.username.label }}</label>
+                                    {{ form.username }}
+                                </div>
+                                <div class="col-span-2"> 
+                                    <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.email.label }}</label>
+                                    {{ form.email }}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-6 w-full border-b-2 border-gray-200 py-4"> <!-- Fila -->
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.dni.label }}</label>
+                                    {{ form.dni }}
+                                </div>
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.first_name.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.first_name.label }}</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.last_name.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.last_name.label }}</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6 w-full border-b-2 border-gray-200 py-4"> <!-- Fila -->
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.direction.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.direction.label }}</label>
+                                    {{ form.direction }}
+                                </div>
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.phone.label }}</label>
+                                    {{ form.phone }}
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6 w-full border-b-2 border-gray-200 py-4"> <!-- Fila -->
+                                <div class="col-span-1 relative"> 
+                                    <label for="{{ form.password1.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg z-20">{{ form.password1.label }}</label>
+                                    <div class="input-group">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 top-6">
+                                            <i class="text-blue-400 fa-solid fa-lock"></i>
+                                        </span>
+                                        {{ form.password1 }}
+                                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 top-6">
+                                            <button class="btn btn-outline-secondary p-2 togglePassword1" type="button">
+                                                <i class="fas fa-eye dark:text-blue-400" id="id_icon_password1"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-span-1 relative"> 
+                                    <label for="{{ form.password2.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg z-20">{{ form.password2.label }}</label>
+                                    <div class="input-group">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 top-6">
+                                            <i class="text-blue-400 fa-solid fa-lock"></i>
+                                        </span>
+                                        {{ form.password2 }}
+                                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 top-6">
+                                            <button class="btn btn-outline-secondary p-2 togglePassword2" type="button">
+                                                <i class="fas fa-eye dark:text-blue-400" id="id_icon_password2"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="grid grid-cols-3 gap-6 w-full border-b-2 border-gray-200 py-4"> 
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.is_superuser.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.is_superuser.label }}</label>
+                                    {{ form.is_superuser }}
+                                </div>
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.is_staff.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.is_staff.label }}</label>
+                                    {{ form.is_staff }}
+                                </div>
+                                <div class="col-span-1"> 
+                                    <label for="{{ form.is_active.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.is_active.label }}</label>
+                                    {{ form.is_active }}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-6 w-full border-b-2 border-gray-200 py-4"> 
+                                <div class="col-span-2">
+                                    <label for="{{ form.groups.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.groups.label }}:</label>
+                                    <div class="space-y-4 pt-4 px-10">
+                                        {% for checkbox in form.groups %}
+                                        <div class="relative flex gap-x-3">
+                                            <div class="flex h-6 items-center">
+                                                {{ checkbox.tag }}
+                                            </div>
+                                            <div class="text-sm leading-6">
+                                                <label for="{{ checkbox.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-md">{{ checkbox.choice_label }}</label>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- Botón de Registro -->
+                            <div class="flex justify-center items-end mt-6">
+                                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-10 mx-20 rounded-full flex items-center">
+                                    Registrarse
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <p class="dark:text-gray-400 text-center mt-3 z-10">
+                ¿Ya tienes una cuenta? <a href="{% url 'security:auth_login' %}" class="text-blue-600 hover:underline dark:text-blue-300 font-Tiny5 uppercase">Inicia Sesión</a>
+            </p>
+        </section>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imagenInput = document.getElementById('{{ form.image.id_for_label }}');
+        const imagenSeleccionada = document.getElementById('imagenSeleccionada');
+        imagenInput.addEventListener('change', function () {
+            const file = imagenInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagenSeleccionada.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                '{% if form.image.value %}'
+                imagenSeleccionada.src = "{{ form.image.value.url }}";
+                '{% else %}'
+                imagenSeleccionada.src = "{% static 'img/default_profile.jpeg' %}";
+                '{% endif %}'
+            }
+        });
+
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        const icon1 = document.querySelector('#id_icon_password1');
+        const icon2 = document.querySelector('#id_icon_password2');
+    
+        icon1.addEventListener('click', event => {
+            event.preventDefault();
+            if (password1.type === 'password') {
+                password1.type = 'text',
+                icon1.classList.remove('fa-eye');
+                icon1.classList.add('fa-eye-slash');
+            } else {
+                password1.type = 'password';
+                icon1.classList.add('fa-eye');
+                icon1.classList.remove('fa-eye-slash');
+            }
+        });
+    
+        icon2.addEventListener('click', event => {
+            event.preventDefault();
+            if (password2.type === 'password') {
+                password2.type = 'text',
+                icon2.classList.remove('fa-eye');
+                icon2.classList.add('fa-eye-slash');
+            } else {
+                password2.type = 'password';
+                icon2.classList.add('fa-eye');
+                icon2.classList.remove('fa-eye-slash');
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}

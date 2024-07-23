@@ -1,0 +1,126 @@
+{% extends 'components/base.html' %}
+{% block content %}
+{% load static %}
+<title>{% block title %}Detalles de Compra{% endblock title %}</title>
+<section class="dark:bg-principal mt-5">
+    <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-24">
+            <div class="flex flex-col items-center justify-center">
+                <span class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                    Detalles de Compra
+                </span>
+            </div>
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                Nº {{ purchase.id }}
+            </h1>
+        </div>
+        <div class="lg:p-4 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+            <div class="p-4 mb-10 flex justify-center items-center">
+                <img class="w-60 h-60 object-contain rounded-2xl"
+                     src="{% if company.logo %}{{ company.logo.url }}{% else %}{% static 'img/default.png' %}{% endif %}"
+                     alt="Imagen de la compania">
+                <p class="dark:text-blue-300 text-8xl mt-6 font-bold">{{ company.name }}</p>
+            </div>
+            <div class="p-4 grid grid-cols-1 lg:grid-cols-3 mb-10">
+                <div class="col-span-1">
+                    <h1 class="dark:text-blue-300 text-4md text-center m-6 font-bold underline">
+                        NÚMERO DE COMPRA:
+                    </h1>
+                    <h2 class="dark:text-white text-4md text-center m-6">000{{ purchase.id }}</h2>
+                </div>
+                <div class="col-span-1">
+                    <h1 class="dark:text-blue-300 text-4md text-center m-6 font-bold underline">
+                        FECHA DE EMISIÓN:
+                    </h1>
+                    <h2 class="dark:text-white text-4md text-center m-6">{{ purchase.issue_date|date:'d-m-Y' }}</h2>
+                </div>
+                <div class="col-span-1">
+                    <h1 class="dark:text-blue-300 text-4md text-center m-6 font-bold underline">
+                        Estado De Factura:
+                    </h1>
+                    <h2 class="text-4md text-center m-6 {{ state_color }}">
+                        {{ purchase.get_state_display }}
+                    </h2>
+                </div>
+            </div>
+
+            <div class="p-4 grid grid-cols-1 lg:grid-cols-3 mb-10">
+                <div class="col-span-1">
+                    <h1 class="dark:text-blue-300 text-4md text-center m-6 font-bold underline">
+                        PROVEEDOR:
+                    </h1>
+                    <div class="grid grid-cols-2">
+                        <div class="col-span-1 flex justify-end items-center text-right mr-5">
+                            <p class="dark:text-white text-4md m-6">NOMBRE:</p>
+                        </div>
+                        <div class="col-span-1 flex items-center dark:text-white text-4md m-6">
+                            {{ purchase.supplier.name }}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2">
+                        <div class="col-span-1 flex justify-end items-center text-right mr-5">
+                            <p class="dark:text-white text-4md m-6">EMAIL:</p>
+                        </div>
+                        <div class="col-span-1 flex items-center dark:text-white text-4md m-6">
+                            {{supplier.email }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de compras -->
+            <div class="overflow-x-auto py-8 border-b border-t border-blue-800">
+                <div class="dark:text-white text-xl text-center font-Pacifico mb-5">Detalle de la compra</div>
+                <table class="w-full text-center text-lg">
+                    <thead class="uppercase font-Tiny5 bg-gray-50 dark:bg-secundario dark:text-blue-300">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Producto</th>
+                            <th scope="col" class="px-6 py-3">Cantidad</th>
+                            <th scope="col" class="px-6 py-3">Precio Unitario</th>
+                            <th scope="col" class="px-6 py-3">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalle">
+                        {% for detail in purchase.details %}
+                        <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                            <td class="px-6 py-4">{{ detail.product.description }}</td>
+                            <td class="px-6 py-4">{{ detail.quantity }}</td>
+                            <td class="px-6 py-4">${{ detail.cost }}</td>
+                            <td class="px-6 py-4">${{ detail.subtotal }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-2 text-center dark:text-gray-300">No hay productos en esta compra.</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="font-Tiny5 dark:text-white bg-[#182544] text-lg uppercase dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                            <th scope="row" colspan="3" class="px-6 py-3 text-right">Subtotal:</th>
+                            <td class="px-6 py-3">${{ purchase.subtotal }}</td>
+                        </tr>
+                        <tr class="font-Tiny5 dark:text-white bg-[#182544] text-lg uppercase dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                            <th scope="row" colspan="3" class="px-6 py-3 text-right">IVA:</th>
+                            <td class="px-6 py-3">${{ purchase.iva }}</td>
+                        </tr>
+                        <tr class="font-Tiny5 dark:text-white bg-[#182544] text-lg uppercase dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                            <th scope="row" colspan="3" class="px-6 py-3 text-right">Total:</th>
+                            <td class="px-6 py-3">${{ purchase.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Table -->
+
+            <div class="mt-8 flex justify-center space-x-4">
+                <a class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg inline-flex items-center transition duration-300 ease-in-out"
+                    href="{% url 'purcharse:purcharse_list' %}">
+                    <i class="fas fa-arrow-left mr-2"></i> Volver a la lista de compras
+                </a>
+                <a class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg inline-flex items-center transition duration-300 ease-in-out"
+                    href="{% url 'purcharse:purchase_pdf' purchase.id %}">
+                    <i class="fas fa-file-pdf mr-2"></i> Generar PDF
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

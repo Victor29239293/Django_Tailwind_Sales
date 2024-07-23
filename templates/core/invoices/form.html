@@ -1,0 +1,75 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block content %}
+<title>{% block title %}Formulario de Factura{% endblock title %}</title>
+<section class="dark:bg-principal mt-20">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-24">
+            <div class="flex flex-col items-center justify-center">
+                <span class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                    Factura
+                </span>
+            </div>
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                Formulario de Factura
+            </h1>
+            <p class="dark:text-gray-400 text-center mt-6 text-lg font-light">
+                Complete el formulario para registrar una nueva factura.
+            </p>
+        </div>
+        <div class="bg-white dark:bg-secundario rounded-3xl justify-center items-center p-8 mx-4 sm:mx-8 lg:mx-20" data-aos="fade">
+            <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+                {% csrf_token %}
+                <!-- Datos del Cliente -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h2 class="text-2xl font-bold mb-4">Datos del Cliente</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div>
+                            {{ form.customer.label_tag }}{{ form.customer }}
+                        </div>
+                        <div>
+                            {{ form.payment_method.label_tag }}{{ form.payment_method }}
+                        </div>
+                        <div>
+                            {{ form.issue_date.label_tag }}{{ form.issue_date }}
+                        </div>
+                       
+                    </div>
+                </div>
+                <!-- Datos de Venta -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h2 class="text-2xl font-bold mb-4">Datos de Venta</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <label for="seller">Vendedor</label>
+                            <input type="text" id="seller" name="seller" value="Carlos Estrada Porras" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                        </div>
+                        <div class="flex justify-end items-center space-x-4">
+                            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md">Anular</button>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Procesar</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Detalles de la Factura -->
+                <div>
+                    <h2 class="text-2xl font-bold mb-4">Detalles de la Factura</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            {{ form.subtotal.label_tag }}{{ form.subtotal }}
+                            {{ form.iva.label_tag }}{{ form.iva }}
+                            {{ form.discount.label_tag }}{{ form.discount }}
+                        </div>
+                        <div>
+                            {{ form.total.label_tag }}{{ form.total }}
+                            {{ form.payment.label_tag }}{{ form.payment }}
+                            {{ form.change.label_tag }}{{ form.change }}
+                            {{ form.state.label_tag }}{{ form.state }}
+                            {{ form.active.label_tag }}{{ form.active }}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

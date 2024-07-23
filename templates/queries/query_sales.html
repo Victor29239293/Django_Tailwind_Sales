@@ -1,0 +1,291 @@
+{% extends 'components/base.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}{{ title1 }}{% endblock title %}</title>
+    <section class="dark:bg-principal mt-5">
+        <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="sm:pt-28 lg:pt-24">
+                <div class="flex flex-col items-center justify-center">
+                    <span class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                        {{ title1 }}
+                    </span>
+                </div>
+                <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                    {{ title2 }}
+                </h1>
+            </div>
+
+            <!-- consultas de ventas -->
+            <div class="lg:p-4 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+                <h2 class="dark:text-white text-4xl text-center mt-6 font-Pacifico border-t border-blue-400 pt-6">
+                    {{ title3 }}
+                </h2>
+
+                <!-- Barra de búsqueda y filtros -->
+                <div class="p-4 flex flex-col md:flex-row justify-center">
+                    <form method="GET" action="{% url 'queries:query_sales' %}" class="">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+                            <div class="relative">
+                                <label for="id-search" class="sr-only">Fecha Emisión</label>
+                                <input type="number" name="id" id="id-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Num de factura" value="{{ request.GET.id }}">
+                                <button type="button" class="absolute inset-y-0 right-4 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="date-search" class="sr-only">Fecha Emisión</label>
+                                <input type="date" name="issue_date" id="date-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    value="{{ request.GET.issue_date }}">
+                                <button type="button" class="absolute inset-y-0 right-6 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="customer-search" class="sr-only">Cliente</label>
+                                <input type="text" name="customer" id="customer-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Cliente" value="{{ request.GET.customer }}">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="payment-method-search" class="sr-only">Método Pago</label>
+                                <input type="text" name="payment_method" id="payment-method-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Método de pago" value="{{ request.GET.payment_method }}">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="state-search" class="sr-only">Estado</label>
+                                <select name="state" id="state-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light select2">
+                                    <option value="">Seleccione Estado</option>
+                                    <option value="F">Factura</option>
+                                    <option value="A">Anulada</option>
+                                    <option value="M">Modificada</option>
+                                </select>
+                                <button type="button" class="absolute inset-y-0 right-4 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="active-search" class="sr-only">Activo</label>
+                                <select name="active" id="active-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light select2">
+                                    <option value="">Seleccione Activo</option>
+                                    <option value="true">Activo</option>
+                                    <option value="false">No Activo</option>
+                                </select>
+                                <button type="button" class="absolute inset-y-0 right-4 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="subtotal-search" class="sr-only">Subtotal</label>
+                                <input type="text" name="subtotal" id="subtotal-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Subtotal" value="{{ request.GET.subtotal }}">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="discount-search" class="sr-only">Descuento</label>
+                                <input type="text" name="discount" id="discount-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Descuento" value="{{ request.GET.discount }}">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label for="total-search" class="sr-only">Total</label>
+                                <input type="text" name="total" id="total-search"
+                                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="Total" value="{{ request.GET.total }}">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 clear-input">
+                                    <i class="fas fa-times text-gray-400 hover:text-red-500"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 justify-between mt-3 mx-8">
+                            <div class="col-span-1">
+                                <button type="submit"
+                                    class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-md w-60 text-sm font-medium">
+                                    Filtrar
+                                </button>
+                            </div>
+                            <div class="col-span-1">
+                                <button type="button" id="clear-all-filters"
+                                    class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-md w-60 text-sm font-medium">
+                                    Vaciar Todo
+                                </button>
+                            </div>
+                        </div>
+                    </form>                  
+                </div>
+
+                <!-- Tabla de ventas -->
+                <div class="overflow-x-auto mt-4">
+                    <table class="w-full text-center text-lg">
+                        <thead class="uppercase font-Tiny5 bg-gray-50 dark:bg-secundario dark:text-blue-300">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Factura</th>
+                                <th scope="col" class="px-6 py-3">Cliente</th>
+                                <th scope="col" class="px-6 py-3">Fecha Emision</th>
+                                <th scope="col" class="px-6 py-3">Subtotal</th>
+                                <th scope="col" class="px-6 py-3">Iva</th>
+                                <th scope="col" class="px-6 py-3">Descuento</th>
+                                <th scope="col" class="px-6 py-3">Total</th>
+                                <th scope="col" class="px-6 py-3">Metodo Pago</th>
+                                <th scope="col" class="px-6 py-3">Tipo</th>
+                                <th scope="col" class="px-6 py-3">Activo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in invoices %}
+                            <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                                <td class="px-6 py-4">{{ item.id }}</td>
+                                <td class="px-6 py-4">{{ item.customer.get_full_name }}</td>
+                                <td class="px-6 py-4">{{ item.issue_date | date:"d-m-Y H:i:s" }}</td>
+                                <td class="px-6 py-4">$ {{ item.subtotal }}</td>
+                                <td class="px-6 py-4">$ {{ item.iva }}</td>
+                                <td class="px-6 py-4">$ {{ item.discount }}</td>
+                                <td class="px-6 py-4">$ {{ item.total }}</td>
+                                <td class="px-6 py-4">{{ item.payment_method }}</td>
+                                <td class="px-6 py-4">{{ item.get_state_display }}</td>
+                                <td class="px-6 py-4">
+                                    {% if item.active %}
+                                    <i class="fa-solid fa-check text-green-500"></i>
+                                    {% else %}
+                                    <i class="fa-solid fas fa-eye-slash text-red-500"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if not invoices %}
+                            <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                                <td class="px-6 py-4 text-center" colspan="10">No hay resultados</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="px-6 py-4 text-center dark:text-white" colspan="10">
+                                    Total de registros: {{ page_obj.paginator.count }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div class="flex justify-center mt-4">
+                    <nav aria-label="Page navigation example">
+                        <ul class="inline-flex -space-x-px">
+                            {% if page_obj.has_previous %}
+                            <li>
+                                <a href="?page=1"
+                                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Anterior</a>
+                            </li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                            <li>
+                                <a href="?page={{ num }}"
+                                    class="flex items-center justify-center px-3 h-8 leading-tight {% if num == page_obj.number %}text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-secundario dark:border-principal dark:text-blue-300{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white{% endif %}">
+                                    {{ num }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li>
+                                <a href="?page={{ page_obj.next_page_number }}"
+                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Siguiente</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- graficos -->
+                <div id="chart-container" class="grid md:grid-cols-1 lg:grid-cols-2 my-10 p-20 bg-slate-50 rounded-lg dark:bg-principal dark:border">
+                    <div class="col-span-1 p-10" style="margin: 30px 50px;">
+                        <p class="dark:text-white text-4xl text-center my-6 font-Pacifico">Ventas por Cliente</p>
+                        <canvas id="ventasTotalesClientes"></canvas>
+                    </div>
+                    <div class="col-span-1 p-10" style="margin: 30px 50px;">
+                        <p class="dark:text-white text-4xl text-center my-6 font-Pacifico">Totales de las ventas</p>
+                        <canvas id="totalChart"></canvas>
+                    </div>
+                    <div class="col-span-1 p-10" style="margin: 30px 50px;">
+                        <p class="dark:text-white text-4xl text-center my-6 font-Pacifico">Ventas totales por Mes</p>
+                        <canvas id="ventasTotalesChart"></canvas>
+                    </div>
+                    <div class="col-span-1 p-10" style="margin: 30px 50px;">
+                        <p class="dark:text-white text-4xl text-center my-6 font-Pacifico">Horas del día con mayor número de ventas.</p>
+                        <canvas id="ventasPorHoraChart"></canvas>                    
+                    </div>
+                    <div class="col-span-2 p-10" style="margin: 30px 50px;">
+                        <p class="dark:text-white text-4xl text-center my-6 font-Pacifico">Productos más vendidos.</p>
+                        <canvas id="productosMasVendidosChart"></canvas>                    
+                    </div>
+                </div>
+
+                <!-- Enlaces adicionales -->
+                <div class="flex flex-col md:flex-row justify-center form-group text-center p-4 border-t border-blue-400">
+                    <a style="margin: 0 40px;" class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 text-sm font-medium rounded-md"
+                    href="{% url 'modulos' %}">
+                    <i class="fas fa-arrow-left"></i> Back to Modules
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var chart_data = JSON.parse("{{ chart_data|escapejs }}")       
+        var monthly_sales = JSON.parse("{{ monthly_sales|escapejs }}")       
+        var customer_sales_data = JSON.parse("{{ customer_sales_data|escapejs }}")       
+        var sales_by_hour_data = JSON.parse("{{ sales_by_hour_data|escapejs }}")   
+        var product_sales_data = JSON.parse("{{ product_sales_data|escapejs }}");    
+        console.log(product_sales_data)
+        // console.log(chart_data.subtotals)
+        // console.log(chart_data.labels)
+    </script> 
+    <script src="{% static 'js/queries/charts_sales.js' %}"></script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Clear individual inputs
+        var clearButtons = document.querySelectorAll('.clear-input');
+        clearButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var input = button.parentElement.querySelector('input, select');
+                if (input) {
+                    input.value = '';
+                }
+            });
+        });
+    
+        // Clear all filters
+        var clearAllButton = document.getElementById('clear-all-filters');
+        if (clearAllButton) {
+            clearAllButton.addEventListener('click', function() {
+                var inputs = document.querySelectorAll('input[type="text"], input[type="date"], input[type="number"], select');
+                inputs.forEach(function(input) {
+                    input.value = '';
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}
+
