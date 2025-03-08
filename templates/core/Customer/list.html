@@ -160,7 +160,7 @@
     <script>
         function openDeleteModal(id, name) {
             const deleteForm = document.getElementById('deleteForm');
-            deleteForm.action = `{% url 'core:supplier_delete' 0 %}`.replace('0', id);
+            deleteForm.action = `{% url 'core:customer_delete' 0 %}`.replace('0', id);
             document.getElementById('Description').textContent = `ID: ${id} - ${name}`;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
@@ -169,4 +169,6 @@
             document.getElementById('deleteModal').classList.add('hidden');
         }
     </script> 
+
+    
 {% endblock %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path('supplier_create/', supplier.SupplierCreateView.as_view(),name='supplier_create'),
     path('supplier_update/<int:pk>/', supplier.SupplierUpdateView.as_view(),name='supplier_update'),
     path('supplier_delete/<int:pk>/', supplier.SupplierDeleteView.as_view(),name='supplier_delete'),
+    path('views_maps/', supplier.Views_Maps.as_view(),name='views_maps'),
     #URLS de marcas
     path('brands_list/', brands.BrandListView.as_view(),name='brand_list'),
     path('brands_create/', brands.BrandCreateView.as_view(), name='brand_create'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('brands_delete/<int:pk>/', brands.BrandDeleteView.as_view(),name='brand_delete'),
     #URLS DE CLIENTES
     path('customers_list/', Customer.CustomerListView.as_view(),name='customer_list'),
+    path('api/obtener_datos_cedula/', Customer.obtener_datos_cedula, name='obtener_datos_cedula'),
     path('customers_create/', Customer.CustomerCreateView.as_view(), name='customer_create'),
     path('customers_view/<int:pk>/', Customer.CustomerDetailView.as_view(), name='customer_view'),
     path('customers_update/<int:pk>/', Customer.CustomerUpdateView.as_view(),name='customer_update'),

@@ -1,0 +1,37 @@
+{% extends 'components/base.html' %}
+{% block content %}
+<title>Mapa de Proveedores</title>
+<section class="dark:bg-principal">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">Mapa de Proveedores</h1>
+        </div>
+        <div id="map" style="height: 600px; width: 100%;"></div>
+    </div>
+</section>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const map = L.map('map').setView([0, 0], 2); // Ubicación y zoom iniciales
+
+        // Añadir capa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Añadir marcadores de proveedores
+        const suppliers = JSON.parse('{{ suppliers|escapejs }}');
+        suppliers.forEach(supplier => {
+            const fields = supplier.fields;
+            if (fields.latitude && fields.longitude) {
+                const marker = L.marker([fields.latitude, fields.longitude]).addTo(map);
+                marker.bindPopup(`<b>${fields.name}</b><br>${fields.address}`);
+            }
+        });
+    });
+</script>
+{% endblock %}

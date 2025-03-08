@@ -4,7 +4,8 @@ from app.core.models import Customer
 from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import CreateViewMixin, DeleteViewMixin, ListViewMixin, PermissionMixin, UpdateViewMixin,DetailViewMixin
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView,DetailView
-
+from django.http import JsonResponse
+import requests
 from django.contrib import messages
 from django.db.models import Q
 
@@ -15,7 +16,7 @@ class CustomerListView(PermissionMixin, ListViewMixin, ListView):
     context_object_name = 'customer'
     permission_required = 'view_customer'
     
-    paginate_by = 1
+    paginate_by = 10
     
     def get_queryset(self):
         q1 = self.request.GET.get('q')
@@ -48,7 +49,9 @@ class CustomerCreateView(PermissionMixin, CreateViewMixin, CreateView):
         cliente = self.object
         messages.success(self.request, f"Éxito al crear el cliente {cliente.first_name}.")
         return response
+        
 
+        
 class CustomerUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Customer
     template_name = 'core/Customer/form.html'
@@ -96,4 +99,26 @@ class CustomerDetailView(PermissionMixin, DetailViewMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
+
+
+
+def obtener_datos_cedula(request):
+    cedula = request.GET.get("cedula")
+
+    if not cedula:
+        return JsonResponse({"error": "No se proporcionó un número de cédula"}, status=400)
+
+    api_url = f"https://prueba.onlineciber.com/app/cedula.php?id={cedula}"
+
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()  
+
+        try:
+            data = response.json()  
+            return JsonResponse(data)  
+        except ValueError:
+            return JsonResponse({"error": "La API no devolvió datos válidos"}, status=500)
+
+    except requests.RequestException as e:
+        return JsonResponse({"error": f"Error al conectar con la API: {str(e)}"}, status=500)

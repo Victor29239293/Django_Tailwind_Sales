@@ -17,16 +17,16 @@ from django.views import View
 from django.utils import timezone
 from django.shortcuts import redirect
 from proy_sales.utils import custom_serializer, save_audit
-from reportlab.pdfgen import canvas
-from weasyprint import HTML
+# from reportlab.pdfgen import canvas
+# from weasyprint import HTML
 from django.http import HttpResponse
 from io import BytesIO
-from reportlab.lib.pagesizes import letter
+# from reportlab.lib.pagesizes import letter
 import os
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph,Image,Spacer,HRFlowable
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
+# from reportlab.lib import colors
+# from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph,Image,Spacer,HRFlowable
+# from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+# from reportlab.lib.units import inch
 from django.conf import settings
 from datetime import timedelta
 
@@ -265,156 +265,156 @@ class SaleDetailView(PermissionMixin, DetailView):
         return context
 
 
-class InvoicePrintView(View):
+# class InvoicePrintView(View):
 
-    def get(self, request, *args, **kwargs):
-        invoice = get_object_or_404(Invoice, id=kwargs.get('pk'))
-        details = InvoiceDetail.objects.filter(invoice=invoice)
+#     def get(self, request, *args, **kwargs):
+#         invoice = get_object_or_404(Invoice, id=kwargs.get('pk'))
+#         details = InvoiceDetail.objects.filter(invoice=invoice)
 
-        # Create a BytesIO buffer to receive the PDF data
-        buffer = BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=letter)
+#         # Create a BytesIO buffer to receive the PDF data
+#         buffer = BytesIO()
+#         doc = SimpleDocTemplate(buffer, pagesize=letter)
 
-        # Styles
-        styles = getSampleStyleSheet()
-        title_style = ParagraphStyle(
-            'Title',
-            fontSize=24,
-            leading=28,
-            spaceAfter=12,
-            alignment=1,  # Center alignment
-            textColor=colors.darkblue,
-            fontName='Helvetica-Bold'
-        )
-        company_style = ParagraphStyle(
-            'Company',
-            fontSize=30,
-            leading=22,
-            spaceAfter=12,
-            alignment=1,  # Center alignment
-            textColor=colors.black,
-            fontName='Helvetica-Bold'
-        )
-        header_style = ParagraphStyle(
-            'Header',
-            fontSize=12,
-            leading=15,
-            spaceAfter=10,
-            alignment=0,
-            textColor=colors.black,
-            fontName='Helvetica'
-        )
-        footer_style = ParagraphStyle(
-            'Footer',
-            fontSize=10,
-            leading=12,
-            spaceAfter=6,
-            alignment=1,  # Center alignment
-            textColor=colors.gray,
-            fontName='Helvetica-Oblique'
-        )
+#         # Styles
+#         styles = getSampleStyleSheet()
+#         title_style = ParagraphStyle(
+#             'Title',
+#             fontSize=24,
+#             leading=28,
+#             spaceAfter=12,
+#             alignment=1,  # Center alignment
+#             textColor=colors.darkblue,
+#             fontName='Helvetica-Bold'
+#         )
+#         company_style = ParagraphStyle(
+#             'Company',
+#             fontSize=30,
+#             leading=22,
+#             spaceAfter=12,
+#             alignment=1,  # Center alignment
+#             textColor=colors.black,
+#             fontName='Helvetica-Bold'
+#         )
+#         header_style = ParagraphStyle(
+#             'Header',
+#             fontSize=12,
+#             leading=15,
+#             spaceAfter=10,
+#             alignment=0,
+#             textColor=colors.black,
+#             fontName='Helvetica'
+#         )
+#         footer_style = ParagraphStyle(
+#             'Footer',
+#             fontSize=10,
+#             leading=12,
+#             spaceAfter=6,
+#             alignment=1,  # Center alignment
+#             textColor=colors.gray,
+#             fontName='Helvetica-Oblique'
+#         )
 
-        # Title
-        title = Paragraph(f"Nº DE FACTURA: {invoice.id}", title_style)
-        company = Paragraph("SUPERMAXI", company_style)
+#         # Title
+#         title = Paragraph(f"Nº DE FACTURA: {invoice.id}", title_style)
+#         company = Paragraph("SUPERMAXI", company_style)
 
-        # Logo
-        logo_path = os.path.join(settings.MEDIA_ROOT, 'supermaxi.jpg')  # Update this path to your logo's path
-        try:
-            logo = Image(logo_path, 1.5 * inch, 1.5 * inch)
-        except IOError:
-            logo = Paragraph("<b>LOGO NO DISPONIBLE</b>", header_style)
+#         # Logo
+#         logo_path = os.path.join(settings.MEDIA_ROOT, 'supermaxi.jpg')  # Update this path to your logo's path
+#         try:
+#             logo = Image(logo_path, 1.5 * inch, 1.5 * inch)
+#         except IOError:
+#             logo = Paragraph("<b>LOGO NO DISPONIBLE</b>", header_style)
 
-        # Header Information
-        header_info = Table([
-            [logo, company]
-        ], colWidths=[1.5*inch, 6*inch])
-        header_info.setStyle(TableStyle([
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
-        ]))
+#         # Header Information
+#         header_info = Table([
+#             [logo, company]
+#         ], colWidths=[1.5*inch, 6*inch])
+#         header_info.setStyle(TableStyle([
+#             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+#             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+#             ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+#         ]))
 
-        # Separator Line
-        separator = HRFlowable(width="100%", thickness=1, color=colors.darkblue)
+#         # Separator Line
+#         separator = HRFlowable(width="100%", thickness=1, color=colors.darkblue)
 
-        invoice_info_table = Table([
-            [
-                Paragraph(
-                    f"<b>Rojo Polo Paella Inc.</b><br/>"
-                    f"Carretera Muelle 38<br/>"
-                    f"37531 Ávila, Ávila<br/><br/>",
-                    header_style
-                ),
-                Paragraph(
-                    f"<b>FACTURAR A:</b><br/>"
-                    f"{invoice.customer.first_name} {invoice.customer.last_name}<br/>"
-                    f"<b>DIRECCION :</b><br/>"
-                    f"{invoice.customer.address}<br/><br/>",
-                    header_style
-                ),
-                Paragraph(
-                    f"<b>FECHA:</b> {invoice.issue_date.strftime('%d/%m/%Y')}<br/>"
-                    f"<b>Nº DE Factura:{invoice.id}</b> <br/>"
-                    f"<b>FECHA VENCIMIENTO:</b><br/><br/>",
-                    header_style
-                )
-            ]
-        ], colWidths=[2.5*inch, 3*inch, 2.5*inch])
+#         invoice_info_table = Table([
+#             [
+#                 Paragraph(
+#                     f"<b>Rojo Polo Paella Inc.</b><br/>"
+#                     f"Carretera Muelle 38<br/>"
+#                     f"37531 Ávila, Ávila<br/><br/>",
+#                     header_style
+#                 ),
+#                 Paragraph(
+#                     f"<b>FACTURAR A:</b><br/>"
+#                     f"{invoice.customer.first_name} {invoice.customer.last_name}<br/>"
+#                     f"<b>DIRECCION :</b><br/>"
+#                     f"{invoice.customer.address}<br/><br/>",
+#                     header_style
+#                 ),
+#                 Paragraph(
+#                     f"<b>FECHA:</b> {invoice.issue_date.strftime('%d/%m/%Y')}<br/>"
+#                     f"<b>Nº DE Factura:{invoice.id}</b> <br/>"
+#                     f"<b>FECHA VENCIMIENTO:</b><br/><br/>",
+#                     header_style
+#                 )
+#             ]
+#         ], colWidths=[2.5*inch, 3*inch, 2.5*inch])
 
-        # Table Data
-        data = [["CANT.", "DESCRIPCIÓN", "PRECIO UNITARIO", "IMPORTE"]]
-        for detail in details:
-            data.append([
-                detail.quantity,
-                detail.product.description,
-                f"{detail.price:.2f} €",
-                f"{detail.quantity * detail.price:.2f} €"
-            ])
+#         # Table Data
+#         data = [["CANT.", "DESCRIPCIÓN", "PRECIO UNITARIO", "IMPORTE"]]
+#         for detail in details:
+#             data.append([
+#                 detail.quantity,
+#                 detail.product.description,
+#                 f"{detail.price:.2f} €",
+#                 f"{detail.quantity * detail.price:.2f} €"
+#             ])
 
-        # Add subtotal, IVA, and total
-        data.append(["", "", "Subtotal", f"{invoice.subtotal:.2f} €"])
-        data.append(["", "", "IVA 21.0%", f"{invoice.iva:.2f} €"])
-        data.append(["", "", "TOTAL", f"{invoice.total:.2f} €"])
+#         # Add subtotal, IVA, and total
+#         data.append(["", "", "Subtotal", f"{invoice.subtotal:.2f} €"])
+#         data.append(["", "", "IVA 21.0%", f"{invoice.iva:.2f} €"])
+#         data.append(["", "", "TOTAL", f"{invoice.total:.2f} €"])
 
-        # Table Style
-        table_style = TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.lightgrey),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.whitesmoke, colors.lightgrey]),
-        ])
+#         # Table Style
+#         table_style = TableStyle([
+#             ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
+#             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+#             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+#             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+#             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+#             ('BACKGROUND', (0, 1), (-1, -1), colors.lightgrey),
+#             ('GRID', (0, 0), (-1, -1), 1, colors.black),
+#             ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+#             ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.whitesmoke, colors.lightgrey]),
+#         ])
 
-        table = Table(data, colWidths=[1*inch, 4*inch, 1.5*inch, 1.5*inch])
-        table.setStyle(table_style)
+#         table = Table(data, colWidths=[1*inch, 4*inch, 1.5*inch, 1.5*inch])
+#         table.setStyle(table_style)
 
-        # Footer
-        footer_info = Paragraph(
-            f"""
-            <b>CONDICIONES Y FORMA DE PAGO</b><br/>
-            El pago se realizará en un plazo de 15 días<br/>
-            Banco Santander<br/>
-            IBAN: ES12 3456 7891<br/>
-            SWIFT/BIC: ABCDESM1XXX<br/>
-            <br/>
-            Gracias por su negocio.
-            """,
-            footer_style
-        )
+#         # Footer
+#         footer_info = Paragraph(
+#             f"""
+#             <b>CONDICIONES Y FORMA DE PAGO</b><br/>
+#             El pago se realizará en un plazo de 15 días<br/>
+#             Banco Santander<br/>
+#             IBAN: ES12 3456 7891<br/>
+#             SWIFT/BIC: ABCDESM1XXX<br/>
+#             <br/>
+#             Gracias por su negocio.
+#             """,
+#             footer_style
+#         )
 
-        # Build PDF
-        elements = [header_info, Spacer(1, 12), separator, Spacer(1, 12), invoice_info_table, Spacer(1, 12), table, Spacer(1, 12), separator, Spacer(1, 12), footer_info]
-        doc.build(elements)
+#         # Build PDF
+#         elements = [header_info, Spacer(1, 12), separator, Spacer(1, 12), invoice_info_table, Spacer(1, 12), table, Spacer(1, 12), separator, Spacer(1, 12), footer_info]
+#         doc.build(elements)
 
-        # Seek to the beginning of the BytesIO buffer
-        buffer.seek(0)
+#         # Seek to the beginning of the BytesIO buffer
+#         buffer.seek(0)
 
-        # Create the HttpResponse and set the content type and Content-Disposition header
-        response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="invoice_{invoice.id}.pdf"'
-        return response
+#         # Create the HttpResponse and set the content type and Content-Disposition header
+#         response = HttpResponse(buffer, content_type='application/pdf')
+#         response['Content-Disposition'] = f'attachment; filename="invoice_{invoice.id}.pdf"'
+#         return response

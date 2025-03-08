@@ -4,7 +4,7 @@
 <section class="dark:bg-principal py-12">
     <div class="text-center" data-aos="fade" data-aos-delay="200">
         <div class="sm:pt-28 lg:pt-4">
-            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico ">
                 Detalles del Cliente
             </h1>
         </div>
@@ -13,7 +13,7 @@
             <div class="bg-white dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8 shadow-lg"
                 data-aos="fade-right" data-aos-delay="200">
                 <div class="w-full text-center">
-                    <h2 class="dark:text-blue-300 text-2xl text-center mt-6 font-Pacifico mb-4">Imagen del Cliente</h2>
+                    <h2 class="dark:text-blue-300 text-2xl text-center font-Pacifico  mt-6  mb-4">Imagen del Cliente</h2>
                     <div id="imagenPreview">
                         {% if customer.image %}
                         <img id="imagenSeleccionada" src="{{ customer.image.url }}"
@@ -31,52 +31,52 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     <div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">DNI:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.dni }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">DNI:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.dni }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Nombre:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.first_name }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Nombre:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.first_name }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Apellido:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.last_name }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Apellido:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.last_name }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Género:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.gender }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Género:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.gender }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Fecha de Nacimiento:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.date_of_birth |date:"D, d M Y" }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Fecha de Nacimiento:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.date_of_birth |date:"D, d M Y" }}</h5>
                         </div>
                     </div>
                     <div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Dirección:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.address }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Dirección:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.address }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Teléfono:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.phone }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Teléfono:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.phone }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Email:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.email }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Email:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.email }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Latitud:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.latitude }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Latitud:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.latitude }}</h5>
                         </div>
                         <div class="mb-8">
-                            <label class="dark:text-blue-300 font-black uppercase text-lg">Longitud:</label>
-                            <h5 class="dark:text-blue-300 font-Pacifico">{{ customer.longitude }}</h5>
+                            <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Longitud:</label>
+                            <h5 class="dark:text-blue-300 ">{{ customer.longitude }}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="mb-8 flex flex-col justify-center items-center">
-                    <label class="dark:text-blue-300 font-black uppercase text-lg">Activo:</label>
-                    <h5 class="dark:text-blue-300 font-Pacifico">
+                    <label class="dark:text-blue-300 font-Pacifico uppercase text-lg">Activo:</label>
+                    <h5 class="dark:text-blue-300 ">
                         Estado: 
                         {% if customer.active %}
                         <i class="fa-solid fa-check text-green-500"></i>

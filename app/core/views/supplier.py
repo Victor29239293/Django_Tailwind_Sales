@@ -2,11 +2,11 @@ from django.urls import reverse_lazy
 from app.core.forms.supplier import SupplierForm
 from app.core.models import Supplier
 from app.security.instance.menu_module import MenuModule
-from app.security.mixins.mixins import CreateViewMixin, DeleteViewMixin, ListViewMixin, PermissionMixin, UpdateViewMixin
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from app.security.mixins.mixins import CreateViewMixin, DeleteViewMixin, ListViewMixin, PermissionMixin, UpdateViewMixin,DetailViewMixin
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
 from django.contrib import messages
 from django.db.models import Q
-
+from django.core.serializers import serialize
 class SupplierListView(PermissionMixin, ListViewMixin, ListView):
     template_name = 'core/suppliers/list.html'
     model = Supplier
@@ -87,3 +87,13 @@ class SupplierDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
         # self.object.deleted = True
         # self.object.save()
         return super().delete(request, *args, **kwargs)
+
+class Views_Maps(TemplateView):
+    template_name = 'core/suppliers/views_maps.html'
+    model = Supplier  # Aunque no necesitamos un objeto específico, usamos este modelo para la consulta
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        suppliers = Supplier.objects.all()
+        context['suppliers'] = serialize('json', suppliers, fields=('name', 'address', 'latitude', 'longitude'))
+        return context

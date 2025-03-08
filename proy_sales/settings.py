@@ -97,17 +97,21 @@ WSGI_APPLICATION = 'proy_sales.wsgi.application'
 #         'NAME': BASE_DIR / 'DATA_BASE.sqlite',
 #     }
 # }
+
 DATABASES = {
     "default": {
-        'ENGINE': os.environ.get("DB_ENGINE", "django.db.backends.postgresql"),
-        'NAME': os.environ.get("DB_DATABASE", ""),
-        'USER': os.environ.get("DB_USERNAME", ""),
-        'PASSWORD': os.environ.get("DB_PASSWORD", ""),
-        'HOST': os.environ.get("DB_SOCKET", ""),
-        'PORT': os.environ.get("DB_PORT", "5432"),
-        'ATOMIC_REQUESTS': True
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME", ""),
+        "USER": os.environ.get("DB_USER", ""),
+        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+        "HOST": os.environ.get("DB_HOST", "localhost"),  
+        "PORT": os.environ.get("DB_PORT", "5432"),
+        
     }
 }
+
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -149,4 +153,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'security.User'
 LOGIN_URL = '/security/auth/login'
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+

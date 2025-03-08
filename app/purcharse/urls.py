@@ -10,7 +10,7 @@ urlpatterns = [
     path('purchase_detail/<int:pk>/', buys.PurchaseDetailView.as_view(),name='purchase_detail'),
     path('purchase/annul/<int:pk>/', buys.PurchaseAnnulView.as_view(), name='purchase_annul'),
     path('purcharse/delete/<int:pk>/', buys.PurchaseDeleteView.as_view(), name='purchase_delete'),
-    path("purchase_pdf/<int:pk>/", buys.PurchaseGenerateInvoiceView.as_view(), name="purchase_pdf"),
+    # path("purchase_pdf/<int:pk>/", buys.PurchaseGenerateInvoiceView.as_view(), name="purchase_pdf"),
     
     # path('supplier_delete/<int:pk>/', supplier.SupplierDeleteView.as_view(),name='supplier_delete'),
  ]
